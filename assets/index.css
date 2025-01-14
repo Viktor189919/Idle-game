@@ -1,0 +1,126 @@
+*,
+* ::before,
+* ::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 62.5%;
+    font-family: "Oswald", sans-serif;
+}
+
+.game-container {
+    width: 100%;
+    min-height: 100vh;
+    padding: 4rem;
+}
+
+.init-game-container {
+    width: 100%;
+    min-height: 100vh;
+    z-index: 1;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.game-saved-msg {
+    width: fit-content;
+    height: auto;
+    position: absolute;
+    top: -45px;
+    left: 20px;
+    font-size: 1.5rem;
+    animation: 4s;
+    animation-name: downAndUp;
+}
+
+@keyframes downAndUp {
+    25% {
+        top: 0px;
+    }
+    75% {
+        top: 0px;
+    }
+    100% {
+        top: -45px;
+    }
+}
+
+.init-header {
+    color: white;
+    font-size: 5rem;
+}
+
+.btn-container {
+    display:flex;
+    gap: 2rem;
+}
+
+.start-btn {
+    width: 10rem;
+    height: 10rem;
+    background-color: gray;
+    color: rgb(68, 68, 68);
+    border: solid 4px black;
+    font-weight: 700;
+}
+
+.svg-img {
+    width: 6rem;
+}
+
+.assets-container {
+    display: flex;
+    gap: 1rem;
+}
+
+.worker-container {
+    width: fit-content;
+    height: auto;
+    padding: 1rem;
+    border: solid 2px black;
+    border-radius: 10%;
+    position: relative;
+}
+
+.worker-container:hover {
+    cursor: pointer;
+}
+
+.worker-qty {
+    position: absolute;
+    top: 2px;
+    right: 5px;
+}
+
+.worker-name {
+    text-align: center;
+}
+
+.worker-cost {
+    text-align: center;
+}
+
+.main-resource {
+    font-size: 3rem;
+}
+
+.active {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+}
+
+.active:hover {
+    border-color: rgb(67, 67, 67);
+}
+
+.collapsed {
+    display: none;
+}
