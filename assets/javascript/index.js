@@ -158,12 +158,13 @@ function mainCounter() {
 
 function saveLoop() {
     setInterval(() => {
-        console.log("save game")
-        playerObj.gold.qty = goldCounter;
-        playerObj.gold.accumulation = accumulation;
-        setLocalStorage(playerObj)
-        gameSavedMsg()
-    }, 30000)
+        console.log("save game");
+        const workerPop = getWorkerPop()
+        playerObj = updatePlayerObj(playerObj, goldCounter, accumulation, workerPop);
+        console.log(playerObj)
+        setLocalStorage(playerObj);
+        gameSavedMsg();
+    }, 10000)
 }
 
 function gameSavedMsg() {
@@ -174,6 +175,17 @@ function gameSavedMsg() {
     setTimeout(() => {
         msg.remove();
     }, 5000)
+}
+
+function getWorkerPop() {
+    const workers = assetsContainer.querySelectorAll("div");
+    const workerPop = {};
+    workers.forEach(worker => {
+        const workerId = worker.dataset.id;
+        const workerQty = parseInt(worker.querySelector(".worker-qty").innerHTML);
+        workerPop[workerId] = workerQty;
+    })
+    return workerPop
 }
 
 function addWorker(workerData, workerCostEl, workerCost, workerQtyEl) {
