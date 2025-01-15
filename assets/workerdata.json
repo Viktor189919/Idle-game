@@ -16,7 +16,7 @@
         "name": "Weaver",
         "quantity": 0,
         "avatar": "assets/svg/weaver.svg",
-        "initialCost": 100,
+        "initialCost": 10,
         "currentCost": 100,
         "costIncreaseInterval": 1.3,
         "accumulationGrowth": 2,

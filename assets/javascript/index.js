@@ -1,6 +1,6 @@
 import { getLocalStorage, setLocalStorage} from "./localStorage.js"
 import { getWorkers } from "./api.js"
-import { findNewAsset, initialAssets } from "./createAsset.js";
+import { findNewAssets } from "./findAssets.js";
 import { updatePlayerObj } from "./updateObject.js";
 
 // import { activateBtns } from "./startBtns.js";
@@ -53,6 +53,7 @@ function newGame() {
     const displayedWorkers = assetsContainer.querySelectorAll("div");
     displayedWorkers.forEach(worker => {
         worker.addEventListener("click", (e) => {
+            console.log(worker)
             const workerCostEl = worker.getElementsByClassName("worker-cost")[0];
             const workerCost = parseInt(workerCostEl.innerHTML);
             switch (worker.dataset.id) {
@@ -84,33 +85,30 @@ function newGame() {
 
 function renderWorkers(playerWorkers, initialRender) {
 
-    if (initialRender) {
-        const workers = initialAssets(playerWorkers);
-        assetsContainer.innerHTML = workers;
-    } else {
-        const nextWorker = findNewAsset(playerWorkers);
+    const workers = findNewAssets(playerWorkers, initialRender);
+    workers.forEach(worker => {
 
         const newWorker = document.createElement("div");
-        newWorker.dataset.id = nextWorker.id;
-        newWorker.classList.add("worker-container", `${nextWorker.name}`)
+        newWorker.dataset.id = worker.id;
+        newWorker.classList.add("worker-container", `${worker.name}`)
         
         const newWorkerQty = document.createElement("p");
-        newWorkerQty.id = `${nextWorker.name}-qty-id`;
+        newWorkerQty.id = `${worker.name}-qty-id`;
         newWorkerQty.classList.add("worker-qty")
         newWorkerQty.innerHTML = 0;
 
         const newWorkerImg = document.createElement("img");
         newWorkerImg.classList.add("svg-img");
-        newWorkerImg.src = nextWorker.avatar;
-        newWorkerImg.alt = `${nextWorker.name}-img-svg`;
+        newWorkerImg.src = worker.avatar;
+        newWorkerImg.alt = `${worker.name}-img-svg`;
 
         const newWorkerName = document.createElement("h3");
         newWorkerName.classList.add("worker-name");
-        newWorkerName.innerText = nextWorker.name;
+        newWorkerName.innerText = worker.name;
 
         const newWorkerCost = document.createElement("p");
         newWorkerCost.classList.add("worker-cost");
-        newWorkerCost.innerHTML = `${nextWorker.initialCost} gold`;
+        newWorkerCost.innerHTML = `${worker.initialCost} gold`;
 
         newWorker.appendChild(newWorkerQty);
         newWorker.appendChild(newWorkerImg);
@@ -125,10 +123,10 @@ function renderWorkers(playerWorkers, initialRender) {
             const workerQtyEl = newWorker.getElementsByClassName("worker-qty")[0];
             
             if (goldCounter >= workerCost) {
-                addWorker(nextWorker, workerCostEl, workerCost, workerQtyEl);
+                addWorker(worker, workerCostEl, workerCost, workerQtyEl);
             }
         })
-    }
+    })
 }
 
 function loadGame() {

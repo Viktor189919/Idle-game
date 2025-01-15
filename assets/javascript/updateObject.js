@@ -1,3 +1,6 @@
+// This code is a big questionmark. It is the first attempt to update the object in preparation of saving.
+// My idea is that I update most of the data when the game saves to avoid a lot of constant updating.
+
 export function updatePlayerObj(obj, gold, acc, pop) {
     obj.gold.qty = Math.floor(gold);
     obj.gold.accumulation = acc;
