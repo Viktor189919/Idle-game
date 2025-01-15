@@ -50,33 +50,6 @@ function newGame() {
     const initialRender = true;
     renderWorkers(playerObj.workers, initialRender);
 
-    const displayedWorkers = assetsContainer.querySelectorAll("div");
-    displayedWorkers.forEach(worker => {
-        worker.addEventListener("click", (e) => {
-            console.log(worker)
-            const workerCostEl = worker.getElementsByClassName("worker-cost")[0];
-            const workerCost = parseInt(workerCostEl.innerHTML);
-            switch (worker.dataset.id) {
-                case "1001":
-                    if (goldCounter >= workerCost) {
-                        const workerQtyEl = worker.getElementsByClassName("worker-qty")[0];
-                        addWorker(workerData[0], workerCostEl, workerCost, workerQtyEl);
-                    }
-                    break;
-                case "1002":
-                    if (goldCounter >= workerCost) {
-                        addWorker(workerData[1], worker);
-                    }
-                    break;
-                case "1003":
-                    if (goldCounter >= workerCost) {
-                        addWorker(workerData[2], worker);
-                    }
-                    break;
-            }
-        })
-    })
-
     initGameContainer.classList.add("collapsed")
     mainCounter();
     saveLoop();
