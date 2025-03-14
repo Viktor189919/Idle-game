@@ -6,6 +6,7 @@ export function findNewAssets(data, initialRender) {
 
     } else {
         let nextAsset = data.find(asset => asset.unlocked === false);
+        nextAsset.unlocked = true;
         nextAsset = [nextAsset];
         return nextAsset;
     }

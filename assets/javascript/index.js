@@ -3,9 +3,7 @@ import { getWorkers } from "./api.js"
 import { findNewAssets } from "./findAssets.js";
 import { updatePlayerObj } from "./updateObject.js";
 
-// import { activateBtns } from "./startBtns.js";
-
-
+// Get HTML elements
 const gameContainer = document.getElementById("game-container-id");
 const resourceValue = document.getElementById("resource-value-id");
 const assetsContainer = document.getElementById("assets-container-id");
@@ -31,7 +29,7 @@ function activateBtns(both) {
         const loadGameBtn = document.getElementById("load-game-btn-id")
         loadGameBtn.classList.add("active");
         loadGameBtn.addEventListener("click", (e) => {
-            loadGame();
+            loadGame(playerObj);
         });
     }   
 }
@@ -90,15 +88,20 @@ function renderWorkers(playerWorkers, initialRender) {
 
         assetsContainer.appendChild(newWorker);
 
-        newWorker.addEventListener("click", () => {
-            const workerCostEl = newWorker.getElementsByClassName("worker-cost")[0];
-            const workerCost = parseInt(workerCostEl.innerHTML);
-            const workerQtyEl = newWorker.getElementsByClassName("worker-qty")[0];
-            
-            if (goldCounter >= workerCost) {
-                addWorker(worker, workerCostEl, workerCost, workerQtyEl);
-            }
-        })
+        addListener(newWorker, worker);
+    })
+}
+
+function addListener(workerElement, worker) {
+    console.log(workerElement)
+    workerElement.addEventListener("click", () => {
+        const workerCostEl = workerElement.getElementsByClassName("worker-cost")[0];
+        const workerCost = parseInt(workerCostEl.innerHTML);
+        const workerQtyEl = workerElement.getElementsByClassName("worker-qty")[0];
+        
+        if (goldCounter >= workerCost) {
+            addWorker(worker, workerCostEl, workerCost, workerQtyEl);
+        }
     })
 }
 
@@ -119,17 +122,14 @@ function mainCounter() {
         // Unlock new worker when gold exceeds certain limit
         if (goldCounter >= playerObj.workers[1].initialCost && playerObj.workers[1].unlocked === false) {
             renderWorkers(playerObj.workers)
-            playerObj.workers[1].unlocked = true;
         } else if (goldCounter >= playerObj.workers[2].initialCost && playerObj.workers[2].unlocked === false) {
             renderWorkers(playerObj.workers)
-            playerObj.workers[2].unlocked = true;
         }
     },100)
 }
 
 function saveLoop() {
     setInterval(() => {
-        console.log("save game");
         const workerPop = getWorkerPop()
         playerObj = updatePlayerObj(playerObj, goldCounter, accumulation, workerPop);
         console.log(playerObj)
@@ -159,7 +159,7 @@ function getWorkerPop() {
     return workerPop
 }
 
-function addWorker(workerData, workerCostEl, workerCost, workerQtyEl) {
+function addWorker(workerData, workerCostEl, workerCost, workerQtyEl, accGrowth) {
     goldCounter -= workerCost;
     workerQtyEl.innerHTML = parseInt(workerQtyEl.innerHTML) + 1; 
     workerCostEl.innerHTML = `${Math.ceil(workerCost * workerData.costIncreaseInterval)} gold`;
